@@ -1,12 +1,10 @@
 package com.example.currency.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 @Data
 @Builder
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Conversion {
     @JsonProperty("from")
     private String from;
