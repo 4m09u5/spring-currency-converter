@@ -22,4 +22,4 @@ The server expects you to provide three parameters:
 * value - a rational number that represents the quantity of money
 
 ## Response structure
-The response is a JSON object that stores the equivalent quantity of money in new currency and can be accessed using the `converted` key.
+The response is a JSON object that stores the equivalent quantity of money in new currency, values from, and to that can be accessed using the `from`, `to` and `converted` key.
