@@ -20,7 +20,7 @@ public class Rate {
     private Currency toCurrency;
 
     @Column
-    private Double rate;
+    private Double value;
 
     @Column
     private String type;

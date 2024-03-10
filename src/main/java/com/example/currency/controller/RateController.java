@@ -35,7 +35,7 @@ public class RateController {
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/{id}")
     public void updateRate(@PathVariable Long id, @RequestBody Rate rate) {
-        rateService.updateRate(id, rate);
+        rateService.updateValue(id, rate);
     }
 
     @ResponseStatus(HttpStatus.OK)

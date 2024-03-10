@@ -26,10 +26,10 @@ public class RateService {
         return rates.findAllByOrderByIdAsc();
     }
 
-    public Rate updateRate(Long id, Rate rate) {
+    public Rate updateValue(Long id, Rate rate) {
         Rate old = getRateById(id);
 
-        if (rate.getRate() != null) old.setRate(rate.getRate());
+        if (rate.getValue() != null) old.setValue(rate.getValue());
         if (rate.getType() != null) old.setType(rate.getType());
 
         return rates.save(old);
