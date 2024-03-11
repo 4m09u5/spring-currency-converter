@@ -11,11 +11,15 @@ import java.util.List;
 @Service
 public class BankBranchService {
     private BankBranchRepository branches;
+    private BankService banks;
 
-    public BankBranchService(BankBranchRepository branches) {
+    public BankBranchService(BankBranchRepository branches, BankService banks) {
         this.branches = branches;
+        this.banks = banks;
     }
-    public Long createBranch(BankBranch branch) {
+    public Long createBranch(BankBranch branch, Long bankId) {
+        BankBranch resultBranch = branch;
+        resultBranch.setBank(banks.getBankById(bankId));
         return branches.save(branch).getId();
     }
     public BankBranch getBranchById(Long id) {
@@ -26,10 +30,10 @@ public class BankBranchService {
         return branches.findAllByOrderByIdAsc();
     }
 
-    public BankBranch updateBranch(Long id, BankBranch branch) {
+    public BankBranch updateBranch(Long id, BankBranch branch, Long bankId) {
         BankBranch old = getBranchById(id);
 
-        if (branch.getBank() != null) old.setBank(branch.getBank());
+        if (bankId != null) old.setBank(banks.getBankById(bankId));
         if (branch.getAddress() != null) old.setAddress(branch.getAddress());
 
         return branches.save(old);

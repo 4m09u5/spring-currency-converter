@@ -26,6 +26,10 @@ public class Rate {
     private String type;
 
     @JsonIgnoreProperties("rates")
-    @ManyToMany(mappedBy = "rates")
+    @ManyToMany(cascade=CascadeType.ALL)
+    @JoinTable(
+            name = "branch_rate",
+            joinColumns = @JoinColumn(name = "rate_id"),
+            inverseJoinColumns = @JoinColumn(name = "branch_id"))
     private List<BankBranch> branches;
 }

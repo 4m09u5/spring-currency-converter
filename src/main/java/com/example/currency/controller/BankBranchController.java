@@ -27,15 +27,15 @@ public class BankBranchController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
-    public Long createBranch(@RequestBody(required = true) BankBranch branch) {
-        return branchService.createBranch(branch);
+    @PostMapping("/{bankId}")
+    public Long createBranch(@RequestBody(required = true) BankBranch branch, @PathVariable Long bankId) {
+        return branchService.createBranch(branch, bankId);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/{id}")
-    public void updateBranch(@PathVariable Long id, @RequestBody BankBranch branch) {
-        branchService.updateBranch(id, branch);
+    public void updateBranch(@PathVariable Long id, @RequestBody BankBranch branch,  @RequestParam(required = false) Long bankId) {
+        branchService.updateBranch(id, branch, bankId);
     }
 
     @ResponseStatus(HttpStatus.OK)
