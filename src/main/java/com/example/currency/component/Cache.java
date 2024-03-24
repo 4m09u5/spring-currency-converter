@@ -1,12 +1,14 @@
 package com.example.currency.component;
 
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
 @NoArgsConstructor
+@Component
 public class Cache<T, ID> {
     private static final int CACHE_SIZE = 1000;
     private final Map<ID, T> cache = new LinkedHashMap<>() {
