@@ -1,6 +1,7 @@
 package com.example.currency.controller;
 
 import com.example.currency.model.Bank;
+import com.example.currency.model.Rate;
 import com.example.currency.service.BankService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,7 @@ public class BankController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Long createBank(@RequestBody(required = true) Bank bank) {
+    public Long createBank(@RequestBody Bank bank) {
         return bankService.createBank(bank);
     }
 
@@ -42,5 +43,14 @@ public class BankController {
     @DeleteMapping("/{id}")
     public void deleteBank(@PathVariable Long id) {
         bankService.deleteBank(id);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("{id}/bestRate")
+    public Rate getBestBankRate(@PathVariable Long id,
+                                @RequestParam String from,
+                                @RequestParam String to,
+                                @RequestParam String type) {
+        return bankService.getBestBankRate(id, from, to, type);
     }
 }

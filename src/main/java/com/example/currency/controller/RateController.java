@@ -29,8 +29,8 @@ public class RateController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Long createRate(@RequestBody(required = false) List<Long> branches,
-                           @RequestParam Long fromId, @RequestParam Long toId,
-                           @RequestParam Double value, @RequestParam String type) {
+                           @RequestParam(required = false) Long fromId, @RequestParam(required = false) Long toId,
+                           @RequestParam(required = false) Double value, @RequestParam(required = false) String type) {
         return rateService.createRate(branches, fromId, toId, value, type);
     }
 
@@ -38,8 +38,8 @@ public class RateController {
     @PatchMapping("/{id}")
     public void updateRate(@PathVariable Long id,
                            @RequestBody(required = false) List<Long> branches,
-                           @RequestParam Long fromId, @RequestParam Long toId,
-                           @RequestParam Double value, @RequestParam String type) {
+                           @RequestParam(required = false) Long fromId, @RequestParam(required = false) Long toId,
+                           @RequestParam(required = false) Double value, @RequestParam(required = false) String type) {
         rateService.updateValue(id, branches, fromId, toId, value, type);
     }
 

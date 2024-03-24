@@ -26,7 +26,7 @@ public class Rate {
     private String type;
 
     @JsonIgnoreProperties("rates")
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "branch_rate",
             joinColumns = @JoinColumn(name = "rate_id"),

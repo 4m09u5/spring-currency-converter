@@ -1,5 +1,6 @@
 package com.example.currency.service;
 
+import com.example.currency.component.Cache;
 import com.example.currency.model.BankBranch;
 import com.example.currency.model.Rate;
 import com.example.currency.repository.RateRepository;
@@ -9,17 +10,20 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RateService {
-    private RateRepository rates;
-    private CurrencyService currencies;
-    private BankBranchService branches;
+    private final RateRepository rates;
+    private final CurrencyService currencies;
+    private final BankBranchService branches;
+    private final Cache<Rate, Long> cache;
 
     public RateService(RateRepository rates, CurrencyService currencies, BankBranchService branches) {
         this.rates = rates;
         this.currencies = currencies;
         this.branches = branches;
+        this.cache = new Cache<>();
     }
     public Long createRate(List<Long> branchIds, Long fromId, Long toId, Double value, String type) {
         Rate result = new Rate();
@@ -37,14 +41,27 @@ public class RateService {
             result.setBranches(newBranches);
         }
 
-        return rates.save(result).getId();
+        Long newRate = rates.save(result).getId();
+        cache.saveCached(newRate, result);
+        return newRate;
     }
     public Rate getRateById(Long id) {
-        return rates.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        Optional<Rate> cached = cache.getCachedById(id);
+        if (cached.isPresent())
+            return cached.get();
+
+        Rate rate = rates.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        cache.saveCached(rate.getId(), rate);
+
+        return rate;
     }
 
     public List<Rate> getAll() {
-        return rates.findAllByOrderByIdAsc();
+        List<Rate> all = rates.findAllByOrderByIdAsc();
+        for (Rate rate : all)
+            cache.saveCached(rate.getId(), rate);
+
+        return all;
     }
 
     public Rate updateValue(Long id, List<Long> branchIds, Long fromId, Long toId, Double value, String type) {
@@ -63,11 +80,14 @@ public class RateService {
             old.setBranches(newBranches);
         }
 
-        return rates.save(old);
+
+        Rate saved = rates.save(old);
+        return cache.saveCached(saved.getId(), saved);
     }
 
     public void deleteRate(Long id) {
         getRateById(id);
         rates.deleteById(id);
+        cache.deleteCachedById(id);
     }
 }

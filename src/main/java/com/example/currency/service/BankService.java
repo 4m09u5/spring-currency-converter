@@ -1,6 +1,7 @@
 package com.example.currency.service;
 
 import com.example.currency.model.Bank;
+import com.example.currency.model.Rate;
 import com.example.currency.repository.BankRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Service
 public class BankService {
-    private BankRepository banks;
+    private final BankRepository banks;
 
     public BankService(BankRepository banks) {
         this.banks = banks;
@@ -38,5 +39,12 @@ public class BankService {
     public void deleteBank(Long id) {
         getBankById(id);
         banks.deleteById(id);
+    }
+
+    public Rate getBestBankRate(Long id, String from, String to, String type) {
+        List<Rate> rates = banks.getBestBankRate(id, from, to, type);
+        if(rates.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        return rates.iterator().next();
     }
 }
