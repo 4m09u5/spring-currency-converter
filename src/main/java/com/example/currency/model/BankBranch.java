@@ -5,6 +5,12 @@ import jakarta.persistence.*;
 import java.util.List;
 import lombok.Data;
 
+/**
+ * This class represents BankBranch entity.
+
+ * @author Lemiashonak Dzmitry
+ * @since 2024-03-26
+ */
 @Data
 @Entity
 public class BankBranch {

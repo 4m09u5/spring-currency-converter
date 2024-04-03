@@ -7,6 +7,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * This class handles connections and initiates necessary business logic for rates.
+
+ * @author Lemiashonak Dzmitry
+ * @since 2024-03-26
+ */
 @RestController
 @RequestMapping("/api/v1/rate")
 public class RateController {
@@ -40,7 +46,7 @@ public class RateController {
                            @RequestBody(required = false) List<Long> branches,
                            @RequestParam(required = false) Long fromId, @RequestParam(required = false) Long toId,
                            @RequestParam(required = false) Double value, @RequestParam(required = false) String type) {
-        rateService.updateValue(id, branches, fromId, toId, value, type);
+        rateService.updateRate(id, branches, fromId, toId, value, type);
     }
 
     @ResponseStatus(HttpStatus.OK)

@@ -6,6 +6,12 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * This class represents Rate entity.
+
+ * @author Lemiashonak Dzmitry
+ * @since 2024-03-26
+ */
 @Data
 @Entity
 public class Rate {

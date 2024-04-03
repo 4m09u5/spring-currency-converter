@@ -3,7 +3,9 @@ package com.example.currency.component;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @NoArgsConstructor
 @Component
@@ -18,7 +20,7 @@ public class Cache<T, I> {
 
     public Optional<T> getCachedById(I id) {
         Optional<T> result = Optional.ofNullable(map.get(id));
-        if(result.isPresent()) {
+        if (result.isPresent()) {
             map.remove(id);
             map.put(id, result.get());
         }

@@ -8,6 +8,12 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+/**
+ * This class implements Currency business logic.
+
+ * @author Lemiashonak Dzmitry
+ * @since 2024-03-26
+ */
 @Service
 public class CurrencyService {
     private CurrencyRepository currencies;
@@ -15,17 +21,47 @@ public class CurrencyService {
     public CurrencyService(CurrencyRepository currencies) {
         this.currencies = currencies;
     }
+
+    /**
+     * This method saves given currency to database and returns its record id.
+
+     * @param currency currency entity to save
+     * @author Lemiashonak Dzmitry
+     * @since 2024-03-26
+     */
     public Long createCurrency(Currency currency) {
         return currencies.save(currency).getId();
     }
+
+    /**
+     * This method gets Currency entity with provided id from database.
+
+     * @param id record id to fetch
+     * @author Lemiashonak Dzmitry
+     * @since 2024-03-26
+     */
     public Currency getCurrencyById(Long id) {
         return currencies.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    /**
+     * This method returns List of all Currencies present at database.
+
+     * @author Lemiashonak Dzmitry
+     * @since 2024-03-26
+     */
     public List<Currency> getAll() {
         return currencies.findAllByOrderByIdAsc();
     }
 
+    /**
+     * This method updates record with provided id according to given entity.
+
+     * @param id record id to modify
+     * @param currency entity with new data
+     * @author Lemiashonak Dzmitry
+     * @since 2024-03-26
+     */
     public Currency updateCurrency(Long id, Currency currency) {
         Currency old = getCurrencyById(id);
 
@@ -35,6 +71,13 @@ public class CurrencyService {
         return currencies.save(old);
     }
 
+    /**
+     * This method removes Currency record with provided id from database
+
+     * @param id Currency record id to remove
+     * @author Lemiashonak Dzmitry
+     * @since 2024-03-26
+     */
     public void deleteCurrency(Long id) {
         getCurrencyById(id);
         currencies.deleteById(id);

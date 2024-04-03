@@ -8,6 +8,12 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * This class handles connections and initiates necessary business logic for bank branches.
+
+ * @author Lemiashonak Dzmitry
+ * @since 2024-03-26
+ */
 @RestController
 @RequestMapping("/api/v1/branch")
 public class BankBranchController {

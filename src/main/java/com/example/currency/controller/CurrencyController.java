@@ -2,11 +2,16 @@ package com.example.currency.controller;
 
 import com.example.currency.model.Currency;
 import com.example.currency.service.CurrencyService;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+/**
+ * This class handles connections and initiates necessary business logic for currencies.
 
+ * @author Lemiashonak Dzmitry
+ * @since 2024-03-26
+ */
 @RestController
 @RequestMapping("/api/v1/currency")
 public class CurrencyController {

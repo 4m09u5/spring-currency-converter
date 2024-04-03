@@ -3,11 +3,16 @@ package com.example.currency.controller;
 import com.example.currency.model.Bank;
 import com.example.currency.model.Rate;
 import com.example.currency.service.BankService;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+/**
+ * This class handles connections and initiates necessary business logic for banks.
 
+ * @author Lemiashonak Dzmitry
+ * @since 2024-03-26
+ */
 @RestController
 @RequestMapping("/api/v1/bank")
 public class BankController {

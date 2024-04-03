@@ -12,6 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * This class implements Rate business logic.
+
+ * @author Lemiashonak Dzmitry
+ * @since 2024-03-26
+ */
 @Service
 public class RateService {
     private final RateRepository rates;
@@ -25,6 +31,18 @@ public class RateService {
         this.branches = branches;
         this.cache = new Cache<>();
     }
+
+    /**
+     * This method saves given bank branch to database and returns its record id.
+
+     * @param branchIds list of branches that perform exchange with this rate
+     * @param fromId 'from' Currency id
+     * @param toId 'to' Currency id
+     * @param value exchange ratio
+     * @param type exchange type
+     * @author Lemiashonak Dzmitry
+     * @since 2024-03-26
+     */
     public Long createRate(List<Long> branchIds, Long fromId, Long toId, Double value, String type) {
         Rate result = new Rate();
 
@@ -33,7 +51,7 @@ public class RateService {
         if (fromId != null) result.setFromCurrency(currencies.getCurrencyById(fromId));
         if (toId != null) result.setToCurrency(currencies.getCurrencyById(toId));
 
-        if(branchIds != null) {
+        if (branchIds != null) {
             List<BankBranch> newBranches = new ArrayList<>();
             for (Long branchId : branchIds) {
                 newBranches.add(branches.getBranchById(branchId));
@@ -45,6 +63,14 @@ public class RateService {
         cache.saveCached(newRate, result);
         return newRate;
     }
+
+    /**
+     * This method gets Rate entity with provided id from database.
+
+     * @param id record id to fetch
+     * @author Lemiashonak Dzmitry
+     * @since 2024-03-26
+     */
     public Rate getRateById(Long id) {
         Optional<Rate> cached = cache.getCachedById(id);
         if (cached.isPresent())
@@ -56,25 +82,52 @@ public class RateService {
         return rate;
     }
 
+    /**
+     * This method returns List of all Rates present at database.
+
+     * @author Lemiashonak Dzmitry
+     * @since 2024-03-26
+     */
     public List<Rate> getAll() {
         List<Rate> all = rates.findAllByOrderByIdAsc();
-        for (Rate rate : all)
+        for (Rate rate : all) {
             cache.saveCached(rate.getId(), rate);
+        }
 
         return all;
     }
 
-    public Rate updateValue(Long id,
-                            List<Long> branchIds,
-                            Long fromId, Long toId,
-                            Double value,
-                            String type) {
+    /**
+     * This method updates record with provided id according to given data.
+
+     * @param id record id to modify
+     * @param branchIds list of branches that perform exchange with this rate
+     * @param fromId 'from' Currency id
+     * @param toId 'to' Currency id
+     * @param value exchange ratio
+     * @param type exchange type
+     * @author Lemiashonak Dzmitry
+     * @since 2024-03-26
+     */
+    public Rate updateRate(Long id,
+                           List<Long> branchIds,
+                           Long fromId, Long toId,
+                           Double value,
+                           String type) {
         Rate old = getRateById(id);
 
-        if (value != null) old.setValue(value);
-        if (type != null) old.setType(type);
-        if (fromId != null) old.setFromCurrency(currencies.getCurrencyById(fromId));
-        if (toId != null) old.setToCurrency(currencies.getCurrencyById(toId));
+        if (value != null) {
+            old.setValue(value);
+        }
+        if (type != null) {
+            old.setType(type);
+        }
+        if (fromId != null) {
+            old.setFromCurrency(currencies.getCurrencyById(fromId));
+        }
+        if (toId != null) {
+            old.setToCurrency(currencies.getCurrencyById(toId));
+        }
 
         if (branchIds != null) {
             List<BankBranch> newBranches = new ArrayList<>();
@@ -84,11 +137,17 @@ public class RateService {
             old.setBranches(newBranches);
         }
 
-
         Rate saved = rates.save(old);
         return cache.saveCached(saved.getId(), saved);
     }
 
+    /**
+     * This method removes Rate record with provided id from database.
+
+     * @param id Rate record id to remove
+     * @author Lemiashonak Dzmitry
+     * @since 2024-03-26
+     */
     public void deleteRate(Long id) {
         getRateById(id);
         rates.deleteById(id);
