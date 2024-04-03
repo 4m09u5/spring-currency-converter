@@ -8,44 +8,44 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * This class handles connections and initiates necessary business logic for currencies.
-
+ *
  * @author Lemiashonak Dzmitry
  * @since 2024-03-26
  */
 @RestController
 @RequestMapping("/api/v1/currency")
 public class CurrencyController {
-    private final CurrencyService currencyService;
+  private final CurrencyService currencyService;
 
-    public CurrencyController(CurrencyService currencyService) {
-        this.currencyService = currencyService;
-    }
+  public CurrencyController(CurrencyService currencyService) {
+    this.currencyService = currencyService;
+  }
 
-    @GetMapping("/{id}")
-    public Currency getCurrency(@PathVariable Long id) {
-        return currencyService.getCurrencyById(id);
-    }
+  @GetMapping("/{id}")
+  public Currency getCurrency(@PathVariable Long id) {
+    return currencyService.getCurrencyById(id);
+  }
 
-    @GetMapping
-    public List<Currency> getAllCurrencies() {
-        return currencyService.getAll();
-    }
+  @GetMapping
+  public List<Currency> getAllCurrencies() {
+    return currencyService.getAll();
+  }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
-    public Long createCurrency(@RequestBody(required = true) Currency currency) {
-        return currencyService.createCurrency(currency);
-    }
+  @ResponseStatus(HttpStatus.CREATED)
+  @PostMapping
+  public Long createCurrency(@RequestBody(required = true) Currency currency) {
+    return currencyService.createCurrency(currency);
+  }
 
-    @ResponseStatus(HttpStatus.OK)
-    @PatchMapping("/{id}")
-    public void updateCurrency(@PathVariable Long id, @RequestBody Currency currency) {
-        currencyService.updateCurrency(id, currency);
-    }
+  @ResponseStatus(HttpStatus.OK)
+  @PatchMapping("/{id}")
+  public void updateCurrency(@PathVariable Long id, @RequestBody Currency currency) {
+    currencyService.updateCurrency(id, currency);
+  }
 
-    @ResponseStatus(HttpStatus.OK)
-    @DeleteMapping("/{id}")
-    public void deleteBank(@PathVariable Long id) {
-        currencyService.deleteCurrency(id);
-    }
+  @ResponseStatus(HttpStatus.OK)
+  @DeleteMapping("/{id}")
+  public void deleteBank(@PathVariable Long id) {
+    currencyService.deleteCurrency(id);
+  }
 }

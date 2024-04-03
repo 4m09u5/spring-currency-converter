@@ -12,24 +12,21 @@ import lombok.Data;
 
 /**
  * This class represents Bank entity.
-
+ *
  * @author Lemiashonak Dzmitry
  * @since 2024-03-26
  */
 @Data
 @Entity
 public class Bank {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @JsonIgnoreProperties("bank")
+  @OneToMany(mappedBy = "bank")
+  private List<BankBranch> branches;
 
-    @Column
-    private String name;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column
-    private String image;
-
-    @JsonIgnoreProperties("bank")
-    @OneToMany(mappedBy = "bank")
-    List<BankBranch> branches;
+  @Column private String name;
+  @Column private String image;
 }

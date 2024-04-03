@@ -9,20 +9,21 @@ import org.springframework.stereotype.Repository;
 
 /**
  * This interface defines desired methods for database communication relative to Bank entity.
-
+ *
  * @author Lemiashonak Dzmitry
  * @since 2024-03-26
  */
 @Repository
 public interface BankRepository extends JpaRepository<Bank, Long> {
-    List<Bank> findAllByOrderByIdAsc();
+  List<Bank> findAllByOrderByIdAsc();
 
-    @Query("SELECT r FROM Rate r "
-            + "JOIN r.branches b "
-            + "ON b.bank.id = :id "
-            + "WHERE r.fromCurrency.abbreviation = :from "
-            + "AND r.toCurrency.abbreviation = :to "
-            + "AND r.type = :type "
-            + "ORDER BY r.value ASC")
-    List<Rate> getBestBankRate(Long id, String from, String to, String type);
+  @Query(
+      "SELECT r FROM Rate r "
+          + "JOIN r.branches b "
+          + "ON b.bank.id = :id "
+          + "WHERE r.fromCurrency.abbreviation = :from "
+          + "AND r.toCurrency.abbreviation = :to "
+          + "AND r.type = :type "
+          + "ORDER BY r.value ASC")
+  List<Rate> getBestBankRate(Long id, String from, String to, String type);
 }
