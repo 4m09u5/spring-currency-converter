@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface BankBranchRepository extends JpaRepository<BankBranch, Long> {
-    public List<BankBranch> findAllByOrderByIdAsc();
+    List<BankBranch> findAllByOrderByIdAsc();
 }

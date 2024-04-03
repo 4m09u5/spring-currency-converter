@@ -4,10 +4,9 @@ import com.example.currency.model.BankBranch;
 import com.example.currency.service.BankBranchService;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ManyToMany;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/branch")
@@ -36,9 +35,12 @@ public class BankBranchController {
 
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/{id}")
-    public void updateBranch(@PathVariable Long id, @RequestBody BankBranch branch,  @RequestParam(required = false) Long bankId) {
+    public void updateBranch(@PathVariable Long id,
+                             @RequestBody BankBranch branch,
+                             @RequestParam(required = false) Long bankId) {
         branchService.updateBranch(id, branch, bankId);
     }
+
     @ManyToMany(cascade = CascadeType.PERSIST)
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{id}")

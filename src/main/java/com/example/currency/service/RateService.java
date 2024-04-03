@@ -64,7 +64,11 @@ public class RateService {
         return all;
     }
 
-    public Rate updateValue(Long id, List<Long> branchIds, Long fromId, Long toId, Double value, String type) {
+    public Rate updateValue(Long id,
+                            List<Long> branchIds,
+                            Long fromId, Long toId,
+                            Double value,
+                            String type) {
         Rate old = getRateById(id);
 
         if (value != null) old.setValue(value);
@@ -72,7 +76,7 @@ public class RateService {
         if (fromId != null) old.setFromCurrency(currencies.getCurrencyById(fromId));
         if (toId != null) old.setToCurrency(currencies.getCurrencyById(toId));
 
-        if(branchIds != null) {
+        if (branchIds != null) {
             List<BankBranch> newBranches = new ArrayList<>();
             for (Long branchId : branchIds) {
                 newBranches.add(branches.getBranchById(branchId));
