@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 @Slf4j
 @RestControllerAdvice
@@ -20,7 +21,7 @@ public class ErrorHandler {
   }
 
   @ResponseStatus(HttpStatus.NOT_FOUND)
-  @ExceptionHandler({ResponseStatusException.class, MethodArgumentTypeMismatchException.class})
+  @ExceptionHandler({ResponseStatusException.class, MethodArgumentTypeMismatchException.class, NoHandlerFoundException.class})
   public ErrorMessage notFoundException(Exception ex) {
     log.error("404 NotFound exception");
     return new ErrorMessage("Resource not found");

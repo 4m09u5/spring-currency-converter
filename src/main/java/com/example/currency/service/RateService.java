@@ -84,8 +84,7 @@ public class RateService {
    * @since 2024-03-26
    */
   public List<Rate> getAll() {
-    List<Rate> all = rates.findAllByOrderByIdAsc();
-    return all;
+    return rates.findAllByOrderByIdAsc();
   }
 
   /**
