@@ -47,7 +47,7 @@ public class BankBranchService {
   public BankBranch getBranchById(Long id) {
     return branches
         .findById(id)
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        .orElseThrow(() -> new IllegalArgumentException("Internal error. Branch not found"));
   }
 
   /**

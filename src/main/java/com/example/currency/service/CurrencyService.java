@@ -42,7 +42,7 @@ public class CurrencyService {
   public Currency getCurrencyById(Long id) {
     return currencies
         .findById(id)
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        .orElseThrow(() -> new IllegalArgumentException("Internal error. Currency not found"));
   }
 
   /**

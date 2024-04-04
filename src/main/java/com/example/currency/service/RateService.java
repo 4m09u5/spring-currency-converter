@@ -74,7 +74,8 @@ public class RateService {
    * @since 2024-03-26
    */
   public Rate getRateById(Long id) {
-    return rates.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    return rates.findById(id).orElseThrow(
+            () -> new IllegalArgumentException("Internal error. Rate not found"));
   }
 
   /**

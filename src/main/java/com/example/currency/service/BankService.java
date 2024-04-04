@@ -4,9 +4,7 @@ import com.example.currency.model.Bank;
 import com.example.currency.model.Rate;
 import com.example.currency.repository.BankRepository;
 import java.util.List;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 /**
  * This class implements Bank business logic.
@@ -41,7 +39,9 @@ public class BankService {
    * @since 2024-03-26
    */
   public Bank getBankById(Long id) {
-    return banks.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    return banks
+        .findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Internal error. Bank not found"));
   }
 
   /**
@@ -100,7 +100,7 @@ public class BankService {
   public Rate getBestBankRate(Long id, String from, String to, String type) {
     List<Rate> rates = banks.getBestBankRate(id, from, to, type);
     if (rates.isEmpty()) {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+      throw new IllegalArgumentException("Internal error. Bank not found");
     }
     return rates.iterator().next();
   }
