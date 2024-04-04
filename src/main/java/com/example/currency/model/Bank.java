@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import java.util.List;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * This class represents Bank entity.
@@ -21,6 +22,7 @@ import lombok.Data;
 public class Bank {
   @JsonIgnoreProperties("bank")
   @OneToMany(mappedBy = "bank")
+  @ToString.Exclude
   private List<BankBranch> branches;
 
   @Id

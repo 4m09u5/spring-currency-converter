@@ -21,10 +21,7 @@ public class RateService {
   private final CurrencyService currencies;
   private final BankBranchService branches;
 
-  /**
-   * RateService constructor.
-   */
-
+  /** RateService constructor. */
   public RateService(RateRepository rates, CurrencyService currencies, BankBranchService branches) {
     this.rates = rates;
     this.currencies = currencies;
@@ -66,8 +63,7 @@ public class RateService {
       result.setBranches(newBranches);
     }
 
-    Long newRate = rates.save(result).getId();
-    return newRate;
+    return rates.save(result).getId();
   }
 
   /**
@@ -78,10 +74,7 @@ public class RateService {
    * @since 2024-03-26
    */
   public Rate getRateById(Long id) {
-    Rate rate =
-        rates.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-
-    return rate;
+    return rates.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
   }
 
   /**

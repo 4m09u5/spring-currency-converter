@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.util.List;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * This class represents BankBranch entity.
@@ -25,6 +26,7 @@ public class BankBranch {
 
   @Column String address;
 
+  @ToString.Exclude
   @JsonIgnoreProperties("branches")
   @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(

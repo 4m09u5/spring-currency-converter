@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.util.List;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * This class represents Rate entity.
@@ -26,6 +27,7 @@ public class Rate {
 
   @Column private String type;
 
+  @ToString.Exclude
   @JsonIgnoreProperties("rates")
   @ManyToMany
   @JoinTable(
