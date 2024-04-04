@@ -13,7 +13,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @Slf4j
 @RestControllerAdvice
 public class ErrorHandler {
-  @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   @ExceptionHandler(RuntimeException.class)
   public ErrorMessage runtimeError(Exception ex) {
     log.error("Runtime exception", ex);
