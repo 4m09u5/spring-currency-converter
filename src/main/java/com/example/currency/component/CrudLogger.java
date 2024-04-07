@@ -23,16 +23,16 @@ public class CrudLogger {
 
   @AfterReturning(pointcut = "create()", returning = "result")
   public void logCreate(Object result) {
-    logger.info("Created: {}", result);
+    logger.info("New entity created: {}", result);
   }
 
   @AfterReturning(pointcut = "update()", returning = "result")
   public void logUpdate(Object result) {
-    logger.info("Updated: {}", result);
+    logger.info("Entity updated: {}", result);
   }
 
   @AfterReturning(pointcut = "delete()", returning = "result")
   public void logDelete(Object result) {
-    logger.info("Deleted: {}", result);
+    logger.info("Removed entity: {}", result);
   }
 }

@@ -14,6 +14,12 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+/**
+ * This advice performs exceptions logging.
+ *
+ * @author Lemiashonak Dzmitry
+ * @since 2024-03-26
+ */
 @Slf4j
 @RestControllerAdvice
 public class ErrorHandler {
@@ -21,14 +27,14 @@ public class ErrorHandler {
   @ExceptionHandler(RuntimeException.class)
   public ErrorMessage runtimeError(Exception ex) {
     log.error("Runtime exception", ex);
-    return new ErrorMessage(ex.getMessage());
+    return new ErrorMessage(500L, ex.getMessage());
   }
 
   @ResponseStatus(HttpStatus.NOT_FOUND)
   @ExceptionHandler({ResponseStatusException.class, NoHandlerFoundException.class})
   public ErrorMessage notFoundException(Exception ex) {
     log.error("404 NotFound exception");
-    return new ErrorMessage("Resource not found");
+    return new ErrorMessage(404L, "Resource not found");
   }
 
   @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -41,15 +47,21 @@ public class ErrorHandler {
   })
   public ErrorMessage handleBadRequestException(Exception ex) {
     log.error("400 error");
-    return new ErrorMessage("Bad request");
+    return new ErrorMessage(400L, "Bad request");
   }
 
   @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
   @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
   public ErrorMessage handleMethodNotAllowed(Exception ex) {
     log.error("MethodNotAllowed exception");
-    return new ErrorMessage("Method not allowed");
+    return new ErrorMessage(405L, "Method not allowed");
   }
 
-  public record ErrorMessage(String message) {}
+  /**
+   * This record represents exception message.
+   *
+   * @author Lemiashonak Dzmitry
+   * @since 2024-03-26
+   */
+  public record ErrorMessage(Long code, String message) {}
 }
