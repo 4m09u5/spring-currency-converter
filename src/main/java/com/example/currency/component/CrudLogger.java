@@ -7,6 +7,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+/**
+ * This class performs CRUD logging.
+ *
+ * @author Lemiashonak Dzmitry
+ * @since 2024-03-26
+ */
 @Aspect
 @Component
 public class CrudLogger {
@@ -18,8 +24,8 @@ public class CrudLogger {
   @Pointcut("execution(* com.example.currency.service.*.update*(..))")
   public void update() {}
 
-  @Pointcut("execution(* com.example.currency.service.*.delete*(..))")
-  public void delete() {}
+  @Pointcut("execution(* com.example.currency.service.*.delete*(..)) && args(id,..)")
+  public void delete(Long id) {}
 
   @AfterReturning(pointcut = "create()", returning = "result")
   public void logCreate(Object result) {
@@ -31,8 +37,8 @@ public class CrudLogger {
     logger.info("Entity updated: {}", result);
   }
 
-  @AfterReturning(pointcut = "delete()", returning = "result")
-  public void logDelete(Object result) {
-    logger.info("Removed entity: {}", result);
+  @AfterReturning(pointcut = "delete(id)", returning = "result")
+  public void logDelete(Object result, Long id) {
+    logger.info("Removed entity: {}", id);
   }
 }
