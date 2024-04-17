@@ -90,7 +90,6 @@ public class BankBranchService {
    * @since 2024-03-26
    */
   public void deleteBranch(Long id) {
-    getBranchById(id);
     branches.deleteById(id);
   }
 }

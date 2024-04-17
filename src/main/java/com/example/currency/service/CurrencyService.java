@@ -3,9 +3,11 @@ package com.example.currency.service;
 import com.example.currency.model.Currency;
 import com.example.currency.repository.CurrencyRepository;
 import java.util.List;
-import org.springframework.http.HttpStatus;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 /**
  * This class implements Currency business logic.
@@ -15,10 +17,10 @@ import org.springframework.web.server.ResponseStatusException;
  */
 @Service
 public class CurrencyService {
-  private final CurrencyRepository currencies;
+  private final CurrencyRepository currencyRepository;
 
   public CurrencyService(CurrencyRepository currencies) {
-    this.currencies = currencies;
+    this.currencyRepository = currencies;
   }
 
   /**
@@ -29,8 +31,28 @@ public class CurrencyService {
    * @since 2024-03-26
    */
   public Long createCurrency(Currency currency) {
-    return currencies.save(currency).getId();
+    return currencyRepository.save(currency).getId();
   }
+
+  private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+    Set<Object> seen = ConcurrentHashMap.newKeySet();
+    return t -> seen.add(keyExtractor.apply(t));
+  }
+
+  /**
+   * This method saves given currencies to database and returns their record id.
+   *
+   * @param currencies List of entities to save
+   * @author Lemiashonak Dzmitry
+   * @since 2024-03-26
+   */
+  public List<Long> createCurrencies(List<Currency> currencies) {
+    return currencies.stream()
+            .filter(distinctByKey(p -> p.getAbbreviation()))
+            .map(this::createCurrency)
+            .toList();
+  }
+
 
   /**
    * This method gets Currency entity with provided id from database.
@@ -40,7 +62,7 @@ public class CurrencyService {
    * @since 2024-03-26
    */
   public Currency getCurrencyById(Long id) {
-    return currencies
+    return currencyRepository
         .findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Internal error. Currency not found"));
   }
@@ -52,7 +74,7 @@ public class CurrencyService {
    * @since 2024-03-26
    */
   public List<Currency> getAll() {
-    return currencies.findAllByOrderByIdAsc();
+    return currencyRepository.findAllByOrderByIdAsc();
   }
 
   /**
@@ -73,7 +95,7 @@ public class CurrencyService {
       old.setAbbreviation(currency.getAbbreviation());
     }
 
-    return currencies.save(old);
+    return currencyRepository.save(old);
   }
 
   /**
@@ -84,7 +106,6 @@ public class CurrencyService {
    * @since 2024-03-26
    */
   public void deleteCurrency(Long id) {
-    getCurrencyById(id);
-    currencies.deleteById(id);
+    currencyRepository.deleteById(id);
   }
 }

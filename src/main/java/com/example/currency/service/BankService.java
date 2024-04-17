@@ -14,10 +14,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class BankService {
-  private final BankRepository banks;
+  private final BankRepository bankRepository;
 
   public BankService(BankRepository banks) {
-    this.banks = banks;
+    this.bankRepository = banks;
   }
 
   /**
@@ -28,7 +28,7 @@ public class BankService {
    * @since 2024-03-26
    */
   public Long createBank(Bank bank) {
-    return banks.save(bank).getId();
+    return bankRepository.save(bank).getId();
   }
 
   /**
@@ -39,7 +39,7 @@ public class BankService {
    * @since 2024-03-26
    */
   public Bank getBankById(Long id) {
-    return banks
+    return bankRepository
         .findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Internal error. Bank not found"));
   }
@@ -51,7 +51,7 @@ public class BankService {
    * @since 2024-03-26
    */
   public List<Bank> getAll() {
-    return banks.findAllByOrderByIdAsc();
+    return bankRepository.findAllByOrderByIdAsc();
   }
 
   /**
@@ -72,7 +72,7 @@ public class BankService {
       old.setImage(bank.getImage());
     }
 
-    return banks.save(old);
+    return bankRepository.save(old);
   }
 
   /**
@@ -83,8 +83,7 @@ public class BankService {
    * @since 2024-03-26
    */
   public void deleteBank(Long id) {
-    getBankById(id);
-    banks.deleteById(id);
+    bankRepository.deleteById(id);
   }
 
   /**
@@ -98,7 +97,7 @@ public class BankService {
    * @since 2024-03-26
    */
   public Rate getBestBankRate(Long id, String from, String to, String type) {
-    List<Rate> rates = banks.getBestBankRate(id, from, to, type);
+    List<Rate> rates = bankRepository.getBestBankRate(id, from, to, type);
     if (rates.isEmpty()) {
       throw new IllegalArgumentException("Internal error. Bank not found");
     }

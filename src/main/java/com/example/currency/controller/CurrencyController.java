@@ -45,6 +45,12 @@ public class CurrencyController {
     return currencyService.createCurrency(currency);
   }
 
+  @ResponseStatus(HttpStatus.CREATED)
+  @PostMapping("/many")
+  public List<Long> createCurrencies(@RequestBody(required = true) List<Currency> currency) {
+    return currencyService.createCurrencies(currency);
+  }
+
   @ResponseStatus(HttpStatus.OK)
   @PatchMapping("/{id}")
   public void updateCurrency(@PathVariable Long id, @RequestBody Currency currency) {

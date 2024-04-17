@@ -136,7 +136,6 @@ public class RateService {
    * @since 2024-03-26
    */
   public void deleteRate(Long id) {
-    getRateById(id);
     rates.deleteById(id);
   }
 }

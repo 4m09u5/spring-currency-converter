@@ -12,7 +12,9 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
@@ -21,6 +23,8 @@ import lombok.ToString;
  * @author Lemiashonak Dzmitry
  * @since 2024-03-26
  */
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Entity
 public class BankBranch {
