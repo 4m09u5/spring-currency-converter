@@ -17,6 +17,9 @@ import org.springframework.stereotype.Component;
 public class RequestCounter {
   private static final AtomicLong counter = new AtomicLong(0L);
 
+  private RequestCounter() {
+    throw new IllegalStateException("Utility class");
+  }
   public static Long getValue() {
     return counter.longValue();
   }
