@@ -8,10 +8,8 @@ import com.example.currency.model.Bank;
 import com.example.currency.model.BankBranch;
 import com.example.currency.model.Currency;
 import com.example.currency.model.Rate;
-import com.example.currency.repository.CurrencyRepository;
 import com.example.currency.repository.RateRepository;
 import com.example.currency.service.BankBranchService;
-import com.example.currency.service.BankService;
 import com.example.currency.service.CurrencyService;
 
 import java.util.ArrayList;
