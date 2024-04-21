@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/counter")
 public class CounterController {
 
+  RequestCounter counter;
+
   @GetMapping
   public Long getCounterValue() {
-    return RequestCounter.getValue();
+    return counter.getValue();
   }
 }

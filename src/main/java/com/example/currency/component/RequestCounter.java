@@ -15,20 +15,17 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class RequestCounter {
-  private static final AtomicLong counter = new AtomicLong(0L);
+  private final AtomicLong counter = new AtomicLong(0L);
 
-  private RequestCounter() {
-    throw new IllegalStateException("Utility class");
-  }
-  public static Long getValue() {
+  public Long getValue() {
     return counter.longValue();
   }
 
   @Pointcut("execution(* com.example.currency.controller.*.*(..))")
-  public static void request() {}
+  public void request() {}
 
   @Before("request()")
-  public static void increment() {
+  public void increment() {
     counter.incrementAndGet();
   }
 }
