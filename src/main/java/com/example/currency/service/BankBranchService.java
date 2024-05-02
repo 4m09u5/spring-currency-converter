@@ -72,10 +72,10 @@ public class BankBranchService {
   public BankBranch updateBranch(Long id, BankBranch branch, Long bankId) {
     BankBranch old = getBranchById(id);
 
-    if (bankId != null) {
+    if (bankId != null && bankId != 0) {
       old.setBank(banks.getBankById(bankId));
     }
-    if (branch.getAddress() != null) {
+    if (branch.getAddress() != null && !branch.getAddress().isEmpty()) {
       old.setAddress(branch.getAddress());
     }
 
@@ -90,6 +90,9 @@ public class BankBranchService {
    * @since 2024-03-26
    */
   public void deleteBranch(Long id) {
+    if (!branches.existsById(id)) {
+      throw new IllegalArgumentException("Отделение не найдено");
+    }
     branches.deleteById(id);
   }
 }

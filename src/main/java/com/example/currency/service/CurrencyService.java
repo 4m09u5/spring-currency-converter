@@ -1,5 +1,6 @@
 package com.example.currency.service;
 
+import com.example.currency.component.CrudLogger;
 import com.example.currency.model.Currency;
 import com.example.currency.repository.CurrencyRepository;
 import java.util.List;
@@ -18,9 +19,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class CurrencyService {
   private final CurrencyRepository currencyRepository;
+  private final CrudLogger crudLogger;
 
-  public CurrencyService(CurrencyRepository currencies) {
+  public CurrencyService(CurrencyRepository currencies, CrudLogger crudLogger) {
     this.currencyRepository = currencies;
+    this.crudLogger = crudLogger;
   }
 
   /**
@@ -88,10 +91,10 @@ public class CurrencyService {
   public Currency updateCurrency(Long id, Currency currency) {
     Currency old = getCurrencyById(id);
 
-    if (currency.getName() != null) {
+    if (currency.getName() != null && !currency.getName().isEmpty()) {
       old.setName(currency.getName());
     }
-    if (currency.getAbbreviation() != null) {
+    if (currency.getAbbreviation() != null && !currency.getAbbreviation().isEmpty()) {
       old.setAbbreviation(currency.getAbbreviation());
     }
 
@@ -106,6 +109,17 @@ public class CurrencyService {
    * @since 2024-03-26
    */
   public void deleteCurrency(Long id) {
+    if (!currencyRepository.existsById(id)) {
+      throw new IllegalArgumentException("Валюта не найдена");
+    }
     currencyRepository.deleteById(id);
+  }
+
+  public Currency getCurrencyByAbbreviation(String abbreviation) {
+    List<Currency> result = currencyRepository.findCurrencyByAbbreviation(abbreviation);
+    if (result.isEmpty()) {
+      throw new IllegalArgumentException("Валюта не найдена");
+    }
+    return result.get(0);
   }
 }

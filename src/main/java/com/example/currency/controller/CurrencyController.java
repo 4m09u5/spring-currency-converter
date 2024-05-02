@@ -4,15 +4,7 @@ import com.example.currency.model.Currency;
 import com.example.currency.service.CurrencyService;
 import java.util.List;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * This class handles connections and initiates necessary business logic for currencies.
@@ -20,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Lemiashonak Dzmitry
  * @since 2024-03-26
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/api/v1/currency")
 public class CurrencyController {
@@ -59,7 +52,7 @@ public class CurrencyController {
 
   @ResponseStatus(HttpStatus.OK)
   @DeleteMapping("/{id}")
-  public void deleteBank(@PathVariable Long id) {
+  public void deleteCurrency(@PathVariable Long id) {
     currencyService.deleteCurrency(id);
   }
 }

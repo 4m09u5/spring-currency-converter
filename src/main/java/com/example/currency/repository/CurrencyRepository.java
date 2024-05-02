@@ -14,4 +14,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CurrencyRepository extends JpaRepository<Currency, Long> {
   List<Currency> findAllByOrderByIdAsc();
+  List<Currency> findCurrencyByAbbreviation(String abbreviation);
 }

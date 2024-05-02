@@ -39,7 +39,7 @@ public class RateService {
    * @author Lemiashonak Dzmitry
    * @since 2024-03-26
    */
-  public Long createRate(List<Long> branchIds, Long fromId, Long toId, Double value, String type) {
+  public Long createRate(List<Long> branchIds, String fromId, String toId, Double value, String type) {
     Rate result = new Rate();
 
     if (value != null) {
@@ -49,10 +49,10 @@ public class RateService {
       result.setType(type);
     }
     if (fromId != null) {
-      result.setFromCurrency(currencies.getCurrencyById(fromId));
+      result.setFromCurrency(currencies.getCurrencyByAbbreviation(fromId));
     }
     if (toId != null) {
-      result.setToCurrency(currencies.getCurrencyById(toId));
+      result.setToCurrency(currencies.getCurrencyByAbbreviation(toId));
     }
 
     if (branchIds != null) {
@@ -93,31 +93,31 @@ public class RateService {
    *
    * @param id record id to modify
    * @param branchIds list of branches that perform exchange with this rate
-   * @param fromId 'from' Currency id
-   * @param toId 'to' Currency id
+   * @param from 'from' Currency abbreviation
+   * @param to 'to' Currency abbreviation
    * @param value exchange ratio
    * @param type exchange type
    * @author Lemiashonak Dzmitry
    * @since 2024-03-26
    */
   public Rate updateRate(
-      Long id, List<Long> branchIds, Long fromId, Long toId, Double value, String type) {
+      Long id, List<Long> branchIds, String from, String to, Double value, String type) {
     Rate old = getRateById(id);
 
-    if (value != null) {
+    if (value != null && value != 0) {
       old.setValue(value);
     }
-    if (type != null) {
+    if (type != null && !type.isEmpty()) {
       old.setType(type);
     }
-    if (fromId != null) {
-      old.setFromCurrency(currencies.getCurrencyById(fromId));
+    if (from != null && !from.isEmpty()) {
+      old.setFromCurrency(currencies.getCurrencyByAbbreviation(from));
     }
-    if (toId != null) {
-      old.setToCurrency(currencies.getCurrencyById(toId));
+    if (to != null && !to.isEmpty()) {
+      old.setToCurrency(currencies.getCurrencyByAbbreviation(to));
     }
 
-    if (branchIds != null) {
+    if (branchIds != null && !branchIds.isEmpty()) {
       List<BankBranch> newBranches = new ArrayList<>();
       for (Long branchId : branchIds) {
         newBranches.add(branches.getBranchById(branchId));
@@ -136,6 +136,9 @@ public class RateService {
    * @since 2024-03-26
    */
   public void deleteRate(Long id) {
+    if (!rates.existsById(id)) {
+      throw new IllegalArgumentException("Курс не найден");
+    }
     rates.deleteById(id);
   }
 }

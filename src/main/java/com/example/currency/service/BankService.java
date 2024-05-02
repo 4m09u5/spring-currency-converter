@@ -65,10 +65,10 @@ public class BankService {
   public Bank updateBank(Long id, Bank bank) {
     Bank old = getBankById(id);
 
-    if (bank.getName() != null) {
+    if (bank.getName() != null && !bank.getName().isEmpty()) {
       old.setName(bank.getName());
     }
-    if (bank.getImage() != null) {
+    if (bank.getImage() != null && !bank.getImage().isEmpty()) {
       old.setImage(bank.getImage());
     }
 
@@ -83,6 +83,9 @@ public class BankService {
    * @since 2024-03-26
    */
   public void deleteBank(Long id) {
+    if (!bankRepository.existsById(id)) {
+      throw new IllegalArgumentException("Банк не найден");
+    }
     bankRepository.deleteById(id);
   }
 

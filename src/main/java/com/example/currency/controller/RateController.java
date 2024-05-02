@@ -4,16 +4,7 @@ import com.example.currency.model.Rate;
 import com.example.currency.service.RateService;
 import java.util.List;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * This class handles connections and initiates necessary business logic for rates.
@@ -21,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Lemiashonak Dzmitry
  * @since 2024-03-26
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/api/v1/rate")
 public class RateController {
@@ -44,11 +36,11 @@ public class RateController {
   @PostMapping
   public Long createRate(
       @RequestBody(required = false) List<Long> branches,
-      @RequestParam(required = false) Long fromId,
-      @RequestParam(required = false) Long toId,
-      @RequestParam(required = false) Double value,
-      @RequestParam(required = false) String type) {
-    return rateService.createRate(branches, fromId, toId, value, type);
+      @RequestParam String from,
+      @RequestParam String to,
+      @RequestParam Double value,
+      @RequestParam String type) {
+    return rateService.createRate(branches, from, to, value, type);
   }
 
   @ResponseStatus(HttpStatus.OK)
@@ -56,11 +48,11 @@ public class RateController {
   public void updateRate(
       @PathVariable Long id,
       @RequestBody(required = false) List<Long> branches,
-      @RequestParam(required = false) Long fromId,
-      @RequestParam(required = false) Long toId,
+      @RequestParam(required = false) String from,
+      @RequestParam(required = false) String to,
       @RequestParam(required = false) Double value,
       @RequestParam(required = false) String type) {
-    rateService.updateRate(id, branches, fromId, toId, value, type);
+    rateService.updateRate(id, branches, from, to, value, type);
   }
 
   @ResponseStatus(HttpStatus.OK)

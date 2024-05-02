@@ -8,10 +8,8 @@ import com.example.currency.model.Bank;
 import com.example.currency.model.BankBranch;
 import com.example.currency.model.Currency;
 import com.example.currency.model.Rate;
-import com.example.currency.repository.CurrencyRepository;
 import com.example.currency.repository.RateRepository;
 import com.example.currency.service.BankBranchService;
-import com.example.currency.service.BankService;
 import com.example.currency.service.CurrencyService;
 
 import java.util.ArrayList;
@@ -99,11 +97,11 @@ public class RateServiceTest {
     void testUpdateCurrency() {
         Long rateId = 1L;
         Long branchId = 1L;
-        Long fromId = 1L;
-        Long toId = 2L;
+        String fromAbbr = "SMN";
+        String toAbbr = "MMN";
 
-        Currency from = new Currency(fromId, "Super Money", "SMN");
-        Currency to = new Currency(toId, "Mega Money", "MMN");
+        Currency from = new Currency(1L, "Super Money", fromAbbr);
+        Currency to = new Currency(2L, "Mega Money", toAbbr);
 
         Bank bank = new Bank(new ArrayList<>(), 1L, "Super bank", "/img/super.svg");
 
@@ -113,8 +111,8 @@ public class RateServiceTest {
         Rate newRate = new Rate(rateId, from, to, 1.6, "sell", branches);
 
         when(branchService.getBranchById(branchId)).thenReturn(branches.get(0));
-        when(currencyService.getCurrencyById(fromId)).thenReturn(from);
-        when(currencyService.getCurrencyById(toId)).thenReturn(to);
+        when(currencyService.getCurrencyByAbbreviation(fromAbbr)).thenReturn(from);
+        when(currencyService.getCurrencyByAbbreviation(toAbbr)).thenReturn(to);
         when(rateRepository.findById(rateId)).thenReturn(Optional.of(oldRate));
         when(rateRepository.save(any(Rate.class))).thenAnswer(invocation -> {
             Rate rate = invocation.getArgument(0);
@@ -132,8 +130,8 @@ public class RateServiceTest {
         rateService.updateRate(
             rateId,
                 List.of(branchId),
-            fromId,
-            toId,
+                fromAbbr,
+                toAbbr,
             newRate.getValue(),
             newRate.getType());
 
@@ -143,11 +141,11 @@ public class RateServiceTest {
     @Test
     void testCreateRate() {
         Long branchId = 1L;
-        Long fromId = 1L;
-        Long toId = 2L;
+        String fromAbbr = "SMN";
+        String toAbbr = "MMN";
 
-        Currency from = new Currency(fromId, "Super Money", "SMN");
-        Currency to = new Currency(toId, "Mega Money", "MMN");
+        Currency from = new Currency(1L, "Super Money", fromAbbr);
+        Currency to = new Currency(2L, "Mega Money", toAbbr);
 
         Bank bank = new Bank(new ArrayList<>(), 1L, "Super bank", "/img/super.svg");
 
@@ -156,14 +154,14 @@ public class RateServiceTest {
         Rate rate = new Rate(null, from, to, 1.1, "sell", branches);
 
         when(branchService.getBranchById(branchId)).thenReturn(branches.get(0));
-        when(currencyService.getCurrencyById(fromId)).thenReturn(from);
-        when(currencyService.getCurrencyById(toId)).thenReturn(to);
+        when(currencyService.getCurrencyByAbbreviation(fromAbbr)).thenReturn(from);
+        when(currencyService.getCurrencyByAbbreviation(toAbbr)).thenReturn(to);
         when(rateRepository.save(rate)).thenReturn(rate);
 
         rateService.createRate(
                 List.of(branchId),
-                fromId,
-                toId,
+                fromAbbr,
+                toAbbr,
                 rate.getValue(),
                 rate.getType());
 
