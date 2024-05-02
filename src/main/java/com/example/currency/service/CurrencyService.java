@@ -26,6 +26,11 @@ public class CurrencyService {
     this.crudLogger = crudLogger;
   }
 
+  private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+    Set<Object> seen = ConcurrentHashMap.newKeySet();
+    return t -> seen.add(keyExtractor.apply(t));
+  }
+
   /**
    * This method saves given currency to database and returns its record id.
    *
@@ -35,11 +40,6 @@ public class CurrencyService {
    */
   public Long createCurrency(Currency currency) {
     return currencyRepository.save(currency).getId();
-  }
-
-  private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
-    Set<Object> seen = ConcurrentHashMap.newKeySet();
-    return t -> seen.add(keyExtractor.apply(t));
   }
 
   /**
